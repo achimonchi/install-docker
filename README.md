@@ -32,6 +32,7 @@ Adapun cara menggunakannya, adalah sebagai berikut :
 $ git clone https://github.com/achimonchi/install-docker.git
 ```
 
+### Running simple container
 - Masukkan command berikut
 ```bash
 $ bash container.sh [ COMMAND YANG DIINGINKAN ]
@@ -43,3 +44,35 @@ $ bash container.sh [ COMMAND YANG DIINGINKAN ]
     Bergfungsi untuk memberhentikan container.
   3. `REMOVE`
     Berfungsi untuk menghapus container.
+
+### Running Emby Server
+- Masukkan command berikut :
+```bash
+$ cd emby
+$ sh emby.sh
+```
+Maka secara otomatis, akan membuat container untuk emby server. Nama container yang akan terbentuk adalah : `my_emby` dengan port `8081`. Berikut adalah isi script dari emby.sh :
+```bash 
+docker run -d \  # berfungsi untuk running container secara daemon
+-v $PWD/config:/mnt/config \ # berfungsi untuk mounting file config container. $PWD berisi folder saat ini
+-v $PWD/share:/mnt/share \ # berfungsi untuk meletakkan file video.
+--name my_emby \ # memberi nama container
+-p 8081:8096 \ # expose port ke 8081. Silahkan diubah sesuai kebutuhan
+emby/embyserver # nama image
+```
+Maka, container `my_emby` akan running pada port `8081`
+### Running Ampache Server
+- Masukkan command berikut :
+```bash
+$ cd ampache
+$ sh ampache.sh
+```
+Maka secara otomatis, akan membuat container untuk `ampache` server. Nama container yang akan terbentuk adalah : `ampache` dengan port `8080`. Berikut adalah isi script dari ampache.sh :
+```bash
+docker run -d \   # running container secara daemon
+--name=ampache \  # memberi nama container
+-v $PWD/music:/media:ro \ # mounting / binding volume music
+-p 8080:80 \      # expose port ke 8080
+ampache/ampache   # nama images
+```
+Maka, container `ampache` akan running pada port `8080`
